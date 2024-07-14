@@ -1,5 +1,5 @@
 import User from "../models/user.model.js";
-import bycrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/generateTokens.js";
 
 export const signup = async (req, res) => {
@@ -18,8 +18,8 @@ export const signup = async (req, res) => {
 
     //Hash Password here
 
-    const salt = await bycrypt.genSalt(10);
-    const hashedPassword = await bycrypt.hash(password, salt);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     // https://avatar-placeholder.iran.liara.run/
 
@@ -58,7 +58,7 @@ export const login = async (req, res) => {
     const { username, password } = req.body;
 
     const user = await User.findOne({ username });
-    const isPasswordCorrect = await bycrypt.compare(
+    const isPasswordCorrect = await bcrypt.compare(
       password,
       user?.password || ""
     );
